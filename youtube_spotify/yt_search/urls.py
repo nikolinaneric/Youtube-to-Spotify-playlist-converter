@@ -3,7 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.search, name="yt-search"),
-    path('sp', views.spotify, name="spotify"),
-    path('spotify/callback/', views.make_playlist, name="success")
+    path('', views.spotify, name="spotify"),
+    path('spotify/callback/', views.user_auth, name="user-auth"),
+    path('search/', views.search, name="yt-search"),
+    path('/success/', views.success, name="yt-success"),
 ]
+

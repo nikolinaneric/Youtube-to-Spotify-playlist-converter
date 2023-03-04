@@ -1,4 +1,4 @@
-from .models import Songs
+from .models import Playlists, Songs
 from django.shortcuts import render, redirect
 from django.conf import settings
 from googleapiclient.discovery import build
@@ -9,8 +9,37 @@ from django.core.cache import cache
 from django.contrib import messages
 
 
-def search(request):
+def create_auth_manager():
+    auth_manager = SpotifyOAuth(client_id=settings.SPOTIPY_CLIENT_ID,
+                                    client_secret=settings.SPOTIPY_CLIENT_SECRET,
+                                    redirect_uri=settings.SPOTIPY_REDIRECT_URI,
+                                    scope=settings.SPOTIPY_SCOPE)
+    return auth_manager
 
+def spotify(request):
+    auth_manager = create_auth_manager()
+    auth_url = auth_manager.get_authorize_url()
+    return redirect(auth_url)
+
+
+def user_auth(request):
+    auth_manager = create_auth_manager()
+    code = request.GET.get('code')
+    access_token = auth_manager.get_access_token(code)
+    if auth_manager.is_token_expired(access_token):
+        access_token = auth_manager.refresh_access_token(access_token['refresh_token'])
+    
+    headers = {
+    'Authorization': 'Bearer ' + access_token['access_token'],
+    'Content-Type': 'application/json'
+}
+    url = f'/search?headers={headers}/'
+    return redirect(url)
+
+def search(request):
+    headers = request.GET.get('headers', None)
+    sp = spotipy.Spotify(auth = headers)
+    user_id = sp.current_user()['id']
     if request.method == 'POST':
         link = request.POST.get('link')
         link = link.split('list=')[1]
@@ -25,6 +54,7 @@ def search(request):
             playlist_response = youtube.playlists().list(part='snippet', id=playlist_id).execute()
             playlist = playlist_response['items'][0]
             playlist_title = playlist['snippet']['title']
+            playlist = Playlists.objects.create(user_id = user_id, playlist_title = playlist_title)
             print(playlist_title, 'NASLOV PLEJLISTE')
             
             # retrieving the songs from the playlist
@@ -57,7 +87,7 @@ def search(request):
 
             # editing the title format to make spotify search more successfull
             songs = [song.lower() for song in songs if song.lower() != 'deleted video' and 'private']
-            substrings = ['lyrics','official','live','with','video','tekst','music','lyric','mp3',\
+            substrings = ['lyrics','official','live','with','video','tekst','music','lyric','mp3','hq','spot','arena','bg','zagreb','studio'\
                         'audio','uzivo','uživo','hd','-','(',')','[',']',',','.']
             pattern = r'\(\d{4}\)|\(official video \d{4}\)\)|\[official audio \d{4}\)\]|\(audio \d{4}\)|\(video \d{4}\)'
             for i in range(len(songs)):
@@ -66,50 +96,31 @@ def search(request):
                 for word in substrings:
                     songs[i] = songs[i].replace(word, '')
                 songs[i]= songs[i].strip()
-                Songs.objects.create(title = songs[i])
-            print(songs)
-            messages.success(request, 'Your playlist will be made as soon you aprove the access to your spotify account.')
-            return redirect('/sp')
+                Songs.objects.create(playlist = playlist, song_title = songs[i])
+            messages.success(request, 'We are making your playlist')
+            make_playlist(sp)
+            return redirect('/success/')
         except:
             messages.error(request, 'Something went wrong. Maybe the link you\'ve provided isn\'t in the right format. Please try again.')
 
-    
     return render(request, 'yt_search/search.html')
 
-def create_auth_manager():
-    auth_manager = SpotifyOAuth(client_id=settings.SPOTIPY_CLIENT_ID,
-                                    client_secret=settings.SPOTIPY_CLIENT_SECRET,
-                                    redirect_uri=settings.SPOTIPY_REDIRECT_URI,
-                                    scope=settings.SPOTIPY_SCOPE)
-    return auth_manager
-
-def spotify(request):
-    auth_manager = create_auth_manager()
-    auth_url = auth_manager.get_authorize_url()
-    return redirect(auth_url)
-
-def make_playlist(request):
-    auth_manager = create_auth_manager()
-    code = request.GET.get('code')
-    access_token = auth_manager.get_access_token(code)
-    if auth_manager.is_token_expired(access_token):
-        access_token = auth_manager.refresh_access_token(access_token['refresh_token'])
-    
-    headers = {
-    'Authorization': 'Bearer ' + access_token['access_token'],
-    'Content-Type': 'application/json'
-}
-    sp = spotipy.Spotify(auth = headers)
-    songs = [song.title for song in Songs.objects.all()]
+def make_playlist(sp):
+    user_id = sp.current_user()['id']
+    playlist = Playlists.objects.filter(user_id = user_id).last()
+    #songs = playlist.songs_set.all()
+    songs = Songs.objects.filter(playlist = playlist)
     print(songs)
     tracks = []
     for title in songs: 
-        results = sp.search(q=title, type='track', limit = 1)
+        results = sp.search(q=title.song_title, type='track', limit = 1)
         song = results['tracks']['items'][0]['uri']
         print(song, ' PJESMA ')
-        tracks.append(song)
-    user_id = sp.current_user()['id']
-    playlist = sp.user_playlist_create(user_id, 'Teodora', public=False)
+        if song not in tracks:
+            tracks.append(song)
+    playlist = sp.user_playlist_create(user_id, playlist.playlist_title, public=False)
     sp.playlist_add_items(playlist_id=playlist['id'], items=tracks)
-    return render(request, 'yt_search/success.html')
     
+
+def success(request):
+    return render(request, 'yt_search/success.html')
