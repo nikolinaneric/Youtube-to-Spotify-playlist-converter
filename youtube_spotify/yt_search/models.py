@@ -1,15 +1,29 @@
 from django.db import models
+import json
 
-# Create your models here.
-# class CacheEntry(models.Model):
-#     key = models.CharField(max_length=255, unique=True)
-#     value = models.TextField()
+class UserToken(models.Model):
+    uuid = models.CharField(max_length = 255, unique=True)
+    token = models.TextField()
 
-#     class Meta:
-#         db_table = 'my_cache_table'
+    def set_token(self, token_dict):
+        self.token = json.dumps(token_dict)
+
+    def get_token(self):
+        return json.loads(self.token)
+    
+    class Meta:
+        db_table = 'user_tokens'
+        
+class Playlists(models.Model):
+    user_id = models.CharField(max_length = 255)
+    playlist_title = models.CharField(max_length=255)
+    
+    class Meta:
+        db_table = 'playlists'
 
 class Songs(models.Model):
-    title = models.CharField(max_length=255)
+    playlist = models.ForeignKey(Playlists, on_delete = models.CASCADE, default = 'none\'s playlist')
+    song_title = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'songs'

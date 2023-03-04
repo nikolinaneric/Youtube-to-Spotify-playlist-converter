@@ -124,4 +124,41 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 YOUTUBE_DATA_API_KEY = os.environ.get('DJANGO_SECRET')
+
+# # Set up caching
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',  # Name of the cache table
+#         'OPTIONS': {
+#             'CACHE_TABLE': 'my_cache_table',  # Name of the cache table
+#             'MAX_ENTRIES': 10000,  # Maximum number of cache entries
+#         },
+#     }
+# }
+
+
+
+# Spotify OAuth2.0 credentials
+SPOTIPY_CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID')
+SPOTIPY_CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET')
+SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback'
+
+
+
+
+
+SPOTIPY_SCOPE = 'playlist-modify-private'
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"

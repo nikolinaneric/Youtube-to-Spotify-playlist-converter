@@ -1,2 +1,6 @@
 __pycache__/
+<<<<<<< HEAD
 .cache
+=======
+*.cache
+>>>>>>> 1cc1bfd (scaling the app)
