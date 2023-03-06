@@ -8,7 +8,7 @@ class Playlists(models.Model):
         db_table = 'playlists'
 
 class Songs(models.Model):
-    playlist = models.ForeignKey(Playlists, on_delete = models.CASCADE)
+    playlist = models.ForeignKey(Playlists, on_delete = models.CASCADE, default = 'none\'s playlist')
     song_title = models.CharField(max_length=255)
 
     class Meta:
