@@ -124,4 +124,35 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-YOUTUBE_DATA_API_KEY = 'secret'
+
+
+# # Set up caching
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',  # Name of the cache table
+#         'OPTIONS': {
+#             'CACHE_TABLE': 'my_cache_table',  # Name of the cache table
+#             'MAX_ENTRIES': 10000,  # Maximum number of cache entries
+#         },
+#     }
+# }
+
+# # Use session middleware
+# MIDDLEWARE = [
+#     # ...
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     # ...
+# ]
+
+# Spotify OAuth2.0 credentials
+
+
+
+
+SPOTIPY_SCOPE = 'playlist-modify-private'
+# Use HTTPS for the callback URL (required by Spotify)
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
