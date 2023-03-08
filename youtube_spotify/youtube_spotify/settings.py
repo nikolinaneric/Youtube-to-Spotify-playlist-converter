@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+YOUTUBE_DATA_API_KEY = 'secret'
 
 # # Set up caching
 # CACHES = {
@@ -148,6 +148,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ]
 
 # Spotify OAuth2.0 credentials
+SPOTIPY_CLIENT_ID = 'secret'
+SPOTIPY_CLIENT_SECRET = 'secret'
+SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback'
+SECRET_KEY = 'secret'
 
 
 
