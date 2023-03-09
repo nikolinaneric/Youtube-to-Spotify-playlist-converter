@@ -1,0 +1,63 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>spotify.it</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    
+    <style>
+      @font-face {
+        font-family: 'Circular Bold';
+        src: url('C:/Users/Nikolina/Desktop/django/youtube_spotify_bekap/Youtube-to-Spotify-playlist-converter/youtube_spotify/yt_search/templates/yt_search/Circular/CircularStd-Bold.otf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      .spotify-green {
+        background-color: #1DB954;
+        border-color: #1DB954;
+      }
+
+      .spotify-green:hover {
+        background-color: #1ED760;
+        border-color: #1ED760;
+      }
+      body {
+        background:#191414;
+      }
+      .gradient {
+        background: linear-gradient(to top, #191414, #316141);
+      }
+    
+
+     
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'yt_search/style.css' %}" rel="stylesheet">
+  </head>
+  <body>
+
+    
+<main role="main" >
+  <section class="jumbotron text-center gradient">
+    <br>
+    <div class="container">
+      <h1 class="jumbotron-heading " style="color:white; font-family: 'Circular Bold', sans-serif; font-size: 3rem;">s p o t i f.yt</h1>
+      <br>
+      <p class="lead" style="color:rgb(255, 255, 255); font-weight: light;
+      ">Turn your favorite Youtube playlists into Spotify playlists today!</p>
+      <br>
+      </div>
+      <p class="small text-muted">start by signing in&nbsp;&nbsp;&nbsp;<a href="{% url 'spotify' %}"><img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify Logo" style="width: 150px; height: auto;"></a></p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

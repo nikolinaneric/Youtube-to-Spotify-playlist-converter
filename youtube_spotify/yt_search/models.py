@@ -1,5 +1,19 @@
 from django.db import models
+import json
 
+class UserToken(models.Model):
+    uuid = models.CharField(max_length = 255, unique=True)
+    token = models.TextField()
+
+    def set_token(self, token_dict):
+        self.token = json.dumps(token_dict)
+
+    def get_token(self):
+        return json.loads(self.token)
+    
+    class Meta:
+        db_table = 'user_tokens'
+        
 class Playlists(models.Model):
     user_id = models.CharField(max_length = 255)
     playlist_title = models.CharField(max_length=255)

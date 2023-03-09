@@ -138,6 +138,7 @@ YOUTUBE_DATA_API_KEY = 'secret'
 #     }
 # }
 
+<<<<<<< HEAD
 # # Use session middleware
 # MIDDLEWARE = [
 #     # ...
@@ -146,6 +147,10 @@ YOUTUBE_DATA_API_KEY = 'secret'
 #     'django.contrib.messages.middleware.MessageMiddleware',
 #     # ...
 # ]
+=======
+
+SECRET_KEY = 'secret'
+>>>>>>> e1bc5e9 (project has been finished)
 
 # Spotify OAuth2.0 credentials
 SPOTIPY_CLIENT_ID = 'secret'
@@ -157,6 +162,13 @@ SECRET_KEY = 'secret'
 
 
 SPOTIPY_SCOPE = 'playlist-modify-private'
-# Use HTTPS for the callback URL (required by Spotify)
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"

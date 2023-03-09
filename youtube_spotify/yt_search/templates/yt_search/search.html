@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Search YouTube</title>
 
-    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -24,11 +23,34 @@
         border-color: #1ED760;
       }
       body {
-        background: linear-gradient(to bottom, #1DB954, #191414);
+        background:#191414;
       }
       .gradient {
-        background: linear-gradient(to bottom, #191414, #0F1E14);
+        background: linear-gradient(to top, #191414, #316141);
       }
+
+      .modal {
+        display: none; /* Hide the modal by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black with opacity */
+      }
+
+      /* Modal content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+      }
+
     </style>
     <!-- Custom styles for this template -->
     <link href="{% static 'yt_search/style.css' %}" rel="stylesheet">
@@ -73,21 +95,54 @@
         </div>
       {% endif %} {% endfor %} {% endif %}
 <main role="main" >
-
   <section class="jumbotron text-center gradient">
+    <br>
     <div class="container">
-      <h1 class="jumbotron-heading">Paste The YouTube Playlist Link</h1>
+      <h1 class="jumbotron-heading" style="color:white; font-size: 2rem;">Paste The YouTube Playlist Link</h1>
       <br>
       <form method="POST" action ="">
         {% csrf_token %}
       <div class="input-group mb-3">
-        <input type="text" name="link" class="form-control" aria-label="Username">
+        <input type="text" name="link" class="form-control">
       </div>
-        <button class="btn btn-primary my-2 spotify-green">Make a spotify playlist</button>
+        <button class="btn btn-primary my-2 spotify-green" style="border-radius: 20px; padding: 10px;" id="search">Make a spotify playlist</button>
       </form>
       <p class="small text-muted">Note that the transfer can not work with the youtube generated song mixes.</p>
     </div>
+    <div id="loading-screen" style="display: none;"class="modal">
+      <div class="modal-content">
+       <p> We are making your playlist. You will be redirected to Spotify as soon as it is done.</p> 
+      </div> 
+    </div>
+    {% if warning %}
+    <div id="message" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>{{ warning }}</p>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById("message").style.display = "block";
+      function closeModal() {
+      document.getElementById("message").style.display = "none";
+      }
+    </script>
+    {% endif %}
+    {% if r_url %}
+    <script>
+        // Show the loading screen
+        document.getElementById("loading-screen").style.display = "block";
+              
+        // Delay the redirect by a few seconds to give the user time to see the loading screen
+        setTimeout(function() {
+          // Redirect to the desired URL
+          window.location.href = "{{ r_url }}";
+        }, 2000);
+    </script>
+     {% endif %}
   </section>
 </main>
+
 </body>
 </html>
