@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['spotifyit.herokuapp.com']
 
 
 # Application definition
@@ -125,8 +126,7 @@ STATIC_ROOT = 'C:/Users/Nikolina/Desktop/django/youtube_spotify_bekap/Youtube-to
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-YOUTUBE_DATA_API_KEY = 'AIzaSyAr5axw9yVimn6gYtty82l3u25_ww9aZ2k'
-
+YOUTUBE_DATA_API_KEY = os.environ.get('YOUTUBE_DATA_API_KEY')
 # # Set up caching
 # CACHES = {
 #     'default': {
@@ -149,12 +149,12 @@ YOUTUBE_DATA_API_KEY = 'AIzaSyAr5axw9yVimn6gYtty82l3u25_ww9aZ2k'
 #     # ...
 # ]
 
-SECRET_KEY = 'django-insecure-lp#=%o0w26u!=!^#-u0k4*e0lg32y9t6z2f%ednm1w$9v2ic03'
-
+#SECRET_KEY = 'django-insecure-lp#=%o0w26u!=!^#-u0k4*e0lg32y9t6z2f%ednm1w$9v2ic03'
+SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
 # Spotify OAuth2.0 credentials
-SPOTIPY_CLIENT_ID = '40fa580b61fd4237968e8f613204426f'
-SPOTIPY_CLIENT_SECRET = '8aaa9a77151d42d4a60fc709d4baa13e'
+SPOTIPY_CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID')
+SPOTIPY_CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET')
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback'
 SECRET_KEY = 'secret'
 
