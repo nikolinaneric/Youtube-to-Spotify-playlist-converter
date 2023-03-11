@@ -1,0 +1,2 @@
+web: gunicorn youtube_spotify.wsgi
+worker: celery -A youtube_spotify worker -l info
