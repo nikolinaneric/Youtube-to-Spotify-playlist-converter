@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,7 +126,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-YOUTUBE_DATA_API_KEY = os.environ.get('DJANGO_SECRET')
+YOUTUBE_DATA_API_KEY = os.environ.get('YOUTUBE_DATA_API_KEY')
+
 
 # # Set up caching
 # CACHES = {
@@ -145,10 +147,6 @@ YOUTUBE_DATA_API_KEY = os.environ.get('DJANGO_SECRET')
 SPOTIPY_CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET')
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback'
-
-
-
-
 
 SPOTIPY_SCOPE = 'playlist-modify-private'
 
