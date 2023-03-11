@@ -17,7 +17,7 @@ class UserToken(models.Model):
 class Playlists(models.Model):
     user_id = models.CharField(max_length = 255)
     playlist_title = models.CharField(max_length=255)
-    uuid = models.CharField(max_length = 255, default = None)
+    uuid = models.CharField(max_length = 255, default = "")
     playlist_link = models.CharField(max_length=255, default = "")
     status = models.CharField(max_length=255, default = "in progress")
     class Meta:

@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-YOUTUBE_DATA_API_KEY = 'secret'
+YOUTUBE_DATA_API_KEY = 'AIzaSyAr5axw9yVimn6gYtty82l3u25_ww9aZ2k'
 
 # # Set up caching
 # CACHES = {
@@ -138,7 +138,7 @@ YOUTUBE_DATA_API_KEY = 'secret'
 #     }
 # }
 
-<<<<<<< HEAD
+
 # # Use session middleware
 # MIDDLEWARE = [
 #     # ...
@@ -147,14 +147,13 @@ YOUTUBE_DATA_API_KEY = 'secret'
 #     'django.contrib.messages.middleware.MessageMiddleware',
 #     # ...
 # ]
-=======
 
-SECRET_KEY = 'secret'
->>>>>>> e1bc5e9 (project has been finished)
+SECRET_KEY = 'django-insecure-lp#=%o0w26u!=!^#-u0k4*e0lg32y9t6z2f%ednm1w$9v2ic03'
+
 
 # Spotify OAuth2.0 credentials
-SPOTIPY_CLIENT_ID = 'secret'
-SPOTIPY_CLIENT_SECRET = 'secret'
+SPOTIPY_CLIENT_ID = '40fa580b61fd4237968e8f613204426f'
+SPOTIPY_CLIENT_SECRET = '8aaa9a77151d42d4a60fc709d4baa13e'
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback'
 SECRET_KEY = 'secret'
 
