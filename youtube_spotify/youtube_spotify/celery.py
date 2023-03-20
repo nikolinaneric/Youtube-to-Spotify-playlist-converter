@@ -37,8 +37,7 @@ def formating_and_storing_songs(playlist_id, songs, headers):
     playlist (database object): specific for spotify user id, containing the title of the playlist and belonging songs.
     sp (Spotify object): The Spotify object that represents the user's authorization to interact with the Spotify API.
 
-    Returns:
-    redirect link: The Spotify page with the newly created playlist.
+
     """
    
     sp = spotipy.Spotify(auth = headers)

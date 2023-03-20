@@ -96,8 +96,6 @@ def make_playlist(sp):
     Parameters:
     sp (Spotify object): The Spotify object that represents the user's authorization to interact with the Spotify API.
 
-    Returns:
-    str: The link to the newly created Spotify playlist.
     """
     user_id = sp.current_user()['id']
     playlist = Playlists.objects.filter(user_id = user_id).last()

@@ -118,7 +118,6 @@ def main(request):
     process is successful, the user is redirected to the new Spotify playlist.
     """
     user_uuid = request.COOKIES.get('user_uuid')
-    print(user_uuid, 'ovo je UUID')
     user = get_object_or_404(UserToken, uuid=user_uuid)
     if user:
         token = user.get_token()
