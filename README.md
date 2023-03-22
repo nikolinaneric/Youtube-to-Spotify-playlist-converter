@@ -1,5 +1,5 @@
 # Youtube-to-Spotify-playlist-converter
-Script that will iterate through youtube playlist you like and make the same playlist on your Spotify account
+A mini app that will iterate through youtube playlist you like and make the same playlist on your Spotify account
 
 
 ![Snimak ekrana 2023-03-11 125207](https://user-images.githubusercontent.com/118138407/224485157-a9e27d2c-7a71-41d8-a5fc-d64b2cecd913.png)
