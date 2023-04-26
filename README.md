@@ -1,5 +1,5 @@
 # Youtube-to-Spotify-playlist-converter
-A mini app that will iterate through youtube playlist you like and make the same playlist on your Spotify account
+Mini app that allows users to convert YouTube playlists to Spotify playlists, and is supported by the use of cookies. The app utilizes the YouTube Data API to retrieve information about videos and songs, manipulates this data to enhance the Spotify search, and integrates with the Spotify Web API to create a new playlist. The application is designed to be scalable, and includes support for large playlists and task queues. 
 
 
 ![Snimak ekrana 2023-03-11 125207](https://user-images.githubusercontent.com/118138407/224485157-a9e27d2c-7a71-41d8-a5fc-d64b2cecd913.png)
