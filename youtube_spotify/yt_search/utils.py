@@ -5,7 +5,6 @@ from googleapiclient.discovery import build
 import time
 
 
-
 @sleep_and_retry
 @limits(calls=10, period=1)
 def retrieving_songs(link, user_id, user_uuid):
