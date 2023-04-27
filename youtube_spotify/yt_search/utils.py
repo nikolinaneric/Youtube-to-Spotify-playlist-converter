@@ -5,8 +5,7 @@ from googleapiclient.discovery import build
 import time
 
 
-@sleep_and_retry
-@limits(calls=10, period=1)
+
 def retrieving_songs(link, user_id, user_uuid):
     """
     The extraction of the playlist name and the song's title is done with Google api client and Youtube API.
@@ -22,18 +21,15 @@ def retrieving_songs(link, user_id, user_uuid):
     playlist_id = link
     api_key = settings.YOUTUBE_DATA_API_KEY
     youtube = build('youtube', 'v3', developerKey=api_key)
+    
     if playlist_id is not None:
-        start_time = time.time()
-        print('pravim plejlistu')
         try:
             #extracting the name of the playlist
             playlist_response = youtube.playlists().list(part='snippet', id=playlist_id).execute()
             playlist = playlist_response['items'][0]
             playlist_title = playlist['snippet']['title']
             playlist = Playlists.objects.create(uuid = user_uuid, user_id = user_id, playlist_title = playlist_title)
-            print(playlist_title, 'NASLOV PLEJLISTE')
-            print(time.time() - start_time,'napravljena plejlista')
-            print('izvlacim pjesme')
+          
             # retrieving the songs from the playlist
             playlist_items = []
             next_page_token = None
@@ -57,18 +53,17 @@ def retrieving_songs(link, user_id, user_uuid):
             for playlist_item in playlist_items:
                 video_title = playlist_item['snippet']['title']
                 songs.append(video_title)
-            print(time.time() - start_time,'zavrseno izvlacenje pjesama')
-            print(songs)
             return playlist, songs
         except:
             pass
 
-
+@sleep_and_retry
+@limits(calls=10, period=1)
 def search_spotify(title, sp):
     """
     This function searches the Spotify API for a track with a given title and returns the track's Spotify URI.
     The @limits decorator from the ratelimit library, which limits the number of API calls that can be made to
-    Spotify to 80 calls per 30 seconds.
+    Spotify to 10 calls per second.
 
     Parameters:
     title (str): The title of the song to search for.
@@ -81,7 +76,6 @@ def search_spotify(title, sp):
     song = None
     if results['tracks']['items']:
         song = results['tracks']['items'][0]['uri']
-        print(song, ' PJESMA ')
     return song if song else None
 
 
@@ -99,7 +93,6 @@ def make_playlist(sp):
     user_id = sp.current_user()['id']
     playlist = Playlists.objects.filter(user_id = user_id).last()
     songs = Songs.objects.filter(playlist = playlist)
-    print(songs)
     tracks = []
     for title in songs:
         song = search_spotify(title, sp)
